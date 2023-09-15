@@ -24,6 +24,7 @@ export default {
       this.isLoading = true;
 
       if (!this.person.validate()) {
+        this.isLoading = false;
         return alert("- "+this.person.errorMessage.join('\n- '))
       }
 
@@ -58,10 +59,10 @@ export default {
         <FormInput label="Foto KK" v-model="person.fotoKk" type="file" required/>
         <FormInput label="Umur" v-model="person.age" type="number" required/>
         <FormInput label="Jenis Kelamin" v-model="person.gender" type="select" :options="person.getGenderOptions()" required/>
-        <FormInput label="Provinsi" type="select" />
-        <FormInput label="Kab/Kota" type="select" />
-        <FormInput label="Kecamatan" type="select" />
-        <FormInput label="Kelurahan/Desa" type="select" />
+        <FormInput label="Provinsi" v-model="person.province" v-on:change="location.fetchRegenciesByProvice(person.province)" :options="location.provinces" type="select" required/>
+        <FormInput label="Kab/Kota" v-model="person.regency" v-on:change="location.fetchDistrictsByRegency(person.regency)" :options="location.regencies" type="select" required/>
+        <FormInput label="Kecamatan" v-model="person.district" v-on:change="location.fetchVillagesByDistrict(person.district)" :options="location.districts" type="select" required/>
+        <FormInput label="Kelurahan/Desa" v-model="person.village" :options="location.villages" type="select" required/>
         <FormInput label="Alamat" v-model="person.address" type="textarea" required/>
         <FormInput label="RT" v-model="person.rt" placeholder="01" required/>
         <FormInput label="RW" v-model="person.rw" placeholder="01" required/>
